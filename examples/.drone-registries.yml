@@ -24,6 +24,7 @@ steps:
   pull: if-not-exists
   commands:
     - gcloud config list
+    - cat /home/dev/.docker/config.json
   volumes:
     - name: gcloud-config
       path: /home/dev/.config/gcloud
