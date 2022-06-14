@@ -1,0 +1,44 @@
+kind: pipeline
+type: docker
+name: drone-gcloud-auth
+
+steps:
+
+- name: publish
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/kameshsampath/drone-gcloud-auth
+    pull: if-not-exists
+    dockerfile: docker/Dockerfile
+    auto_tag: true
+    auto_tag_suffix: linux-amd64
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+- name: publish_arm
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/kameshsampath/drone-gcloud-auth
+    pull: if-not-exists
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    dockerfile: docker/Dockerfile.linux.arm64
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+- name: manifest
+  image: plugins/manifest
+  settings:
+    spec: docker/manifest.tmpl
+    auto_tag: true
+    ignore_missing: true
+    password:
+      from_secret: docker_password
+    username:
+      from_secret: docker_username

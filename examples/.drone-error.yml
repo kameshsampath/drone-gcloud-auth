@@ -1,0 +1,31 @@
+kind: pipeline
+type: docker
+name: gcloud-auth
+
+steps:
+
+- name: configure gcloud
+  image: quay.io/kameshsampath/drone-gcloud-auth
+  pull: if-not-exists
+  settings:
+    google_cloud_project:
+      from_secret: google_cloud_project
+    registries:
+       - asia.gcr.io
+       - eu.gcr.io
+  volumes:
+    - name: gcloud-config
+      path: /home/dev/.config/gcloud
+
+- name: log the config
+  image: quay.io/kameshsampath/drone-gcloud-auth
+  pull: if-not-exists
+  commands:
+    - gcloud config list
+  volumes:
+    - name: gcloud-config
+      path: /home/dev/.config/gcloud
+
+volumes:
+  - name: gcloud-config
+    temp: {}
