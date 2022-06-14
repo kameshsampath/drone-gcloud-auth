@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: drone-gcloud-auth
+name: drone-gcloud-plugin
 
 steps:
 
@@ -8,7 +8,7 @@ steps:
   image: plugins/docker
   settings:
     registry: quay.io
-    repo: quay.io/kameshsampath/drone-gcloud-auth
+    repo: quay.io/kameshsampath/drone-gcloud-plugin
     pull: if-not-exists
     dockerfile: docker/Dockerfile
     auto_tag: true
@@ -22,7 +22,7 @@ steps:
   image: plugins/docker
   settings:
     registry: quay.io
-    repo: quay.io/kameshsampath/drone-gcloud-auth
+    repo: quay.io/kameshsampath/drone-gcloud-plugin
     pull: if-not-exists
     auto_tag: true
     auto_tag_suffix: linux-arm64

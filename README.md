@@ -37,7 +37,7 @@ name: gcloud-auth
 steps:
 
 - name: configure gcloud
-  image: quay.io/kameshsampath/drone-gcloud-auth
+  image: quay.io/kameshsampath/drone-gcloud-plugin
   pull: if-not-exists
   settings:
     google_application_credentials:
@@ -49,7 +49,7 @@ steps:
       path: /home/dev/.config/gcloud
 
 - name: view the config
-  image: quay.io/kameshsampath/drone-gcloud-auth
+  image: quay.io/kameshsampath/drone-gcloud-plugin
   pull: if-not-exists
   commands:
     - gcloud config list
