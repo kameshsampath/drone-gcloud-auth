@@ -1,4 +1,4 @@
-FROM --platform=amd64 gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
+FROM --platform=linux/amd64 gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
 LABEL org.opencontainers.image.source https://github.com/kameshsampath/drone-gcloud-plugin
 LABEL org.opencontainers.image.authors="Kamesh Sampath<kamesh.sampath@hotmail.com>"
 
