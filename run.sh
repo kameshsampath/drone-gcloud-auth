@@ -9,15 +9,16 @@ then
 	exit 1
 fi
 
-echo "$PLUGIN_GOOGLE_APPLICATION_CREDENTIALS" > "$HOME/sa.json"
-chmod 0600 "$HOME/sa.json"
-
-gcloud auth -q activate-service-account --key-file "$HOME/sa.json"
-
 if [ -n "${PLUGIN_GOOGLE_CLOUD_PROJECT}" ];
 then
 	echo "Please provide Google Cloud Project to use."
 fi
+
+
+echo "$PLUGIN_GOOGLE_APPLICATION_CREDENTIALS" > "$HOME/sa.json"
+chmod 0600 "$HOME/sa.json"
+
+gcloud auth login --cred-file="$HOME/sa.json" --activate
 
 gcloud config set core/project "${PLUGIN_GOOGLE_CLOUD_PROJECT}"
 
