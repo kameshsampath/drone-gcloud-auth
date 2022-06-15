@@ -9,7 +9,6 @@ steps:
   settings:
     registry: quay.io
     repo: quay.io/kameshsampath/drone-gcloud-plugin
-    pull: if-not-exists
     dockerfile: docker/Dockerfile
     auto_tag: true
     auto_tag_suffix: linux-amd64
@@ -23,7 +22,6 @@ steps:
   settings:
     registry: quay.io
     repo: quay.io/kameshsampath/drone-gcloud-plugin
-    pull: if-not-exists
     auto_tag: true
     auto_tag_suffix: linux-arm64
     dockerfile: docker/Dockerfile.linux.arm64
