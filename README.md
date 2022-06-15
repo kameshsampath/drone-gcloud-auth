@@ -66,7 +66,7 @@ Please check the examples folder for `.drone.yml` with other settings.
 
 ## Building
 
-Build the plugin image:
+Run the following command to build and push the image manually
 
 ```text
 ./scripts/build.sh
