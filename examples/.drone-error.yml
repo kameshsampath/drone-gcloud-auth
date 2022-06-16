@@ -5,7 +5,7 @@ name: gcloud-auth
 steps:
 
 - name: configure gcloud
-  image: quay.io/kameshsampath/drone-gcloud-plugin
+  image: quay.io/kameshsampath/drone-gcloud-auth-plugin
   pull: if-not-exists
   settings:
     google_cloud_project:
@@ -18,7 +18,7 @@ steps:
       path: /home/dev/.config/gcloud
 
 - name: log the config
-  image: quay.io/kameshsampath/drone-gcloud-plugin
+  image: quay.io/kameshsampath/drone-gcloud-auth-plugin
   pull: if-not-exists
   commands:
     - gcloud config list
