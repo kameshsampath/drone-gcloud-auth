@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: drone-gcloud-auth-plugin
+name: default
 
 steps:
 

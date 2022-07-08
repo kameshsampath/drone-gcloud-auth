@@ -1,0 +1,35 @@
+{
+  "containerimage.buildinfo/linux/amd64": {
+    "frontend": "dockerfile.v0",
+    "attrs": {
+      "filename": "Dockerfile"
+    },
+    "sources": [
+      {
+        "type": "docker-image",
+        "ref": "gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine",
+        "pin": "sha256:e0cebf694e89acd3fbf73b4fe8ec16f94553715eeb1660e8d8a5a35b45d3f150"
+      }
+    ]
+  },
+  "containerimage.buildinfo/linux/arm64": {
+    "frontend": "dockerfile.v0",
+    "attrs": {
+      "filename": "Dockerfile"
+    },
+    "sources": [
+      {
+        "type": "docker-image",
+        "ref": "gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine",
+        "pin": "sha256:e0cebf694e89acd3fbf73b4fe8ec16f94553715eeb1660e8d8a5a35b45d3f150"
+      }
+    ]
+  },
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+    "digest": "sha256:f146ecb1d86e0eab4638845a534f4436739d14ac09c46de493de0122c79bfabe",
+    "size": 743
+  },
+  "containerimage.digest": "sha256:f146ecb1d86e0eab4638845a534f4436739d14ac09c46de493de0122c79bfabe",
+  "image.name": "quay.io/kameshsampath/drone-gcloud-auth"
+}

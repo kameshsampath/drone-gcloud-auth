@@ -44,6 +44,9 @@ steps:
       from_secret: service_account_json
     google_cloud_project:
       from_secret: google_cloud_project
+    registries:
+      - asia.gcr.io
+      - eu.gcr.io
   volumes:
     - name: gcloud-config
       path: /home/dev/.config/gcloud
