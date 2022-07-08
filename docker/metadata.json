@@ -27,9 +27,9 @@
   },
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
-    "digest": "sha256:f146ecb1d86e0eab4638845a534f4436739d14ac09c46de493de0122c79bfabe",
+    "digest": "sha256:61212f662b2cff4260c210d79a38692e63a28d89a8dc183e02fcfa94547fe089",
     "size": 743
   },
-  "containerimage.digest": "sha256:f146ecb1d86e0eab4638845a534f4436739d14ac09c46de493de0122c79bfabe",
+  "containerimage.digest": "sha256:61212f662b2cff4260c210d79a38692e63a28d89a8dc183e02fcfa94547fe089",
   "image.name": "quay.io/kameshsampath/drone-gcloud-auth"
 }

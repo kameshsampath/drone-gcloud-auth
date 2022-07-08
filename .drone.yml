@@ -8,7 +8,7 @@ steps:
   image: plugins/docker
   settings:
     registry: quay.io
-    repo: quay.io/kameshsampath/drone-gcloud-auth-plugin
+    repo: quay.io/kameshsampath/drone-gcloud-auth
     dockerfile: docker/Dockerfile
     auto_tag: true
     auto_tag_suffix: linux-amd64
@@ -21,7 +21,7 @@ steps:
   image: plugins/docker
   settings:
     registry: quay.io
-    repo: quay.io/kameshsampath/drone-gcloud-auth-plugin
+    repo: quay.io/kameshsampath/drone-gcloud-auth
     auto_tag: true
     auto_tag_suffix: linux-arm64
     dockerfile: docker/Dockerfile.linux.arm64
