@@ -3,33 +3,71 @@
 set -e
 set -o pipefail
 
-if [ -z "${PLUGIN_GOOGLE_APPLICATION_CREDENTIALS}" ];
+set -x 
+
+RELEASE_PLEASE_COMMAND=release-please
+
+if [ -n "${PLUGIN_RELEASE_PLEASE_COMMAND}" ];
 then
-	echo "Please provide Google Service Account JSON to use."
+  RELEASE_PLEASE_COMMAND_ARGS+=("${PLUGIN_RELEASE_PLEASE_COMMAND}")
+else
+  RELEASE_PLEASE_COMMAND_ARGS+=("release-pr")
+fi
+
+if [ -z "${PLUGIN_TOKEN}" ];
+then
+  echo "Please provide the Git repository token with write permissions"
 	exit 1
 fi
 
-if [ -n "${PLUGIN_GOOGLE_CLOUD_PROJECT}" ];
+RELEASE_PLEASE_COMMAND_ARGS+=("--token=${PLUGIN_TOKEN}")
+
+REPO_URL=${PLUGIN_REPO_URL:-"${DRONE_REPO}"}
+if [ -z "${REPO_URL}" ];
 then
-	echo "Please provide Google Cloud Project to use."
+  echo "Please provide the Git repository url in <owner>/<repo> format token with write permissions"
+	exit 1
+fi
+RELEASE_PLEASE_COMMAND_ARGS+=("--repo-url=${REPO_URL}")
+
+if [ -n "${PLUGIN_API_URL}" ];
+then
+	RELEASE_PLEASE_COMMAND_ARGS+=("--api-url=${PLUGIN_API_URL}")
 fi
 
-
-echo "$PLUGIN_GOOGLE_APPLICATION_CREDENTIALS" > "$HOME/sa.json"
-chmod 0600 "$HOME/sa.json"
-
-gcloud auth login --cred-file="$HOME/sa.json" --activate
-
-gcloud config set core/project "${PLUGIN_GOOGLE_CLOUD_PROJECT}"
-
-if [ -n "${PLUGIN_GOOGLE_CLOUD_REGION}" ];
+if [ -n "${PLUGIN_GRAPHQL_URL}" ];
 then
-	gcloud config set compute/region "${PLUGIN_GOOGLE_CLOUD_REGION}"
+	RELEASE_PLEASE_COMMAND_ARGS+=("--graphql-url=${PLUGIN_GRAPHQL_URL}")
 fi
 
-if [ -z "${PLUGIN_REGISTRIES}" ];
+if [ -n "${PLUGIN_TARGET_BRANCH}" ];
 then
-   gcloud auth -q configure-docker gcr.io
-else
-   gcloud auth -q configure-docker "${PLUGIN_REGISTRIES}"
+	RELEASE_PLEASE_COMMAND_ARGS+=("--target-branch=${PLUGIN_TARGET_BRANCH}")
 fi
+
+if [ -n "${PLUGIN_DRY_RUN}" ];
+then
+	RELEASE_PLEASE_COMMAND_ARGS+=("--dry-run=true")
+fi
+
+if [ -n "${PLUGIN_DEBUG}" ];
+then
+	RELEASE_PLEASE_COMMAND_ARGS+=("--debug=true")
+fi
+
+if [ -n "${PLUGIN_TRACE}" ];
+then
+	RELEASE_PLEASE_COMMAND_ARGS+=("--trace=true")
+fi
+
+if [ -n "${PLUGIN_EXTRA_OPTIONS}" ];
+then
+  OLDIFS=$IFS
+  IFS=', ' read -r -a extra_opts <<< "$PLUGIN_EXTRA_OPTIONS"
+  RELEASE_PLEASE_COMMAND_ARGS+=("${extra_opts[@]}")
+  IFS="$OLDIFS"
+fi
+
+# printf "Running command release-please %s" "${RELEASE_PLEASE_COMMAND_ARGS[*]}"
+
+exec bash -c "${RELEASE_PLEASE_COMMAND} ${RELEASE_PLEASE_COMMAND_ARGS[*]}"

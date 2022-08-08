@@ -1,18 +1,18 @@
-FROM --platform=linux/amd64 gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine
-LABEL org.opencontainers.image.source https://github.com/kameshsampath/drone-gcloud-auth
+#syntax=docker/dockerfile:1.3-labs
+
+FROM node:lts-alpine
+LABEL org.opencontainers.image.source https://github.com/kameshsampath/drone-release-please
 LABEL org.opencontainers.image.authors="Kamesh Sampath<kamesh.sampath@hotmail.com>"
 
-LABEL description="A Drone plugin to initialize gcloud authentication"
+ARG TARGETARCH
 
-RUN apk -Uuv add curl ca-certificates
+LABEL description="A Drone plugin to create releases using googleapis/release-please"
 
-RUN adduser --system --uid 1001 -G root dev \
-    && mkdir -p  /home/dev/.config/gcloud \
-    && chown 1001:0  /home/dev/.config/gcloud
+RUN apk -Uuv add curl ca-certificates git bash
+
+RUN npm i --location=global release-please
 
 ADD run.sh /bin/
 RUN chmod +x /bin/run.sh
-
-USER dev
 
 CMD ["/bin/run.sh"]
