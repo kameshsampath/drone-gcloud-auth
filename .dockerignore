@@ -1,5 +1,7 @@
-scripts
-examples
-docker
-.env*
-.gitignore
+*
+!src
+!test
+!package*
+!.eslint*
+!tsconfig.json
+!run.sh

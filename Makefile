@@ -1,4 +1,4 @@
-IMAGE?=kameshsampath/drone-release-please
+IMAGE?=kameshsampath/drone-github-release-please
 TAG?=latest
 SHELL := bash
 CURRENT_DIR = $(shell pwd)
