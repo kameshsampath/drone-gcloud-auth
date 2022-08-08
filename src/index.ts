@@ -42,16 +42,14 @@ function getGitHubInstance() {
     process.exit(1);
   }
 
-  const { defaultBranch, apiUrl, graphqlUrl } = getGitHubInput();
+  const { apiUrl, graphqlUrl } = getGitHubInput();
   const [owner, repo] = repoUrl.split("/");
-  const targetBranch = defaultBranch ? defaultBranch : GITHUB_TARGET_BRANCH;
   const githubCreateOpts = {
     owner,
     repo,
     apiUrl,
     graphqlUrl,
     token,
-    defaultBranch: targetBranch,
   };
 
   return GitHub.create(githubCreateOpts);
@@ -62,11 +60,7 @@ function getGitHubInput() {
   const graphqlUrl = env.PLUGIN_GRAPHQL_URL
     ? env.PLUGIN_GRAPHQL_URL
     : GITHUB_GRAPHQL_URL;
-  const defaultBranch = env.PLUGIN_TARGET_BRANCH
-    ? env.PLUGIN_TARGET_BRANCH
-    : GITHUB_TARGET_BRANCH;
   return {
-    defaultBranch,
     apiUrl,
     graphqlUrl,
   };
@@ -112,7 +106,7 @@ function buildManifestConfig(manifestOptions): ReleaserConfig {
       console.log("Plugin Settings", JSON.stringify(mfOpts));
       const releaseType = mfOpts["release-type"]
         ? mfOpts["release-type"]
-        : "simple";
+        : DEFAULT_RELEASE_TYPE;
       const bumpMinorPreMajor = parseBoolean(mfOpts["bump-minor-pre-major"]);
       const bumpPatchForMinorPreMajor = parseBoolean(
         mfOpts["bump-patch-for-minor-pre-major"]
@@ -122,7 +116,10 @@ function buildManifestConfig(manifestOptions): ReleaserConfig {
       const changelogPath = valueOrUndefined(mfOpts["changelog-path"]);
       const changelogTypes = valueOrUndefined(mfOpts["changelog-types"]);
       const changelogSections = changelogTypes && JSON.parse(changelogTypes);
-      const versionFile = valueOrUndefined(mfOpts["version-file"]);
+      let versionFile = valueOrUndefined(mfOpts["version-file"]);
+      if (releaseType === DEFAULT_RELEASE_TYPE && !versionFile) {
+        versionFile = "version.txt";
+      }
       const extraFiles = valueArrayOrUndefined(mfOpts["extra-files"]);
       const pullRequestTitlePattern = valueOrUndefined(
         mfOpts["pull-request-title-pattern"]
