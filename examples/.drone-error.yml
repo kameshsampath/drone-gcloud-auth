@@ -5,26 +5,26 @@ name: default
 steps:
 
 - name: configure gcloud
-  image: quay.io/kameshsampath/drone-gcloud-auth
+  image: docker.io/kameshsampath/drone-gcloud-auth
   pull: if-not-exists
   settings:
     google_cloud_project:
       from_secret: google_cloud_project
-    registries:
-       - asia.gcr.io
-       - eu.gcr.io
+    registry_locations:
+       - asia-south1
+       - us-central1
   volumes:
     - name: gcloud-config
-      path: /home/dev/.config/gcloud
+      path: /root/.config/gcloud
 
 - name: log the config
-  image: quay.io/kameshsampath/drone-gcloud-auth
+  image: docker.io/kameshsampath/drone-gcloud-auth
   pull: if-not-exists
   commands:
     - gcloud config list
   volumes:
     - name: gcloud-config
-      path: /home/dev/.config/gcloud
+      path: /root/.config/gcloud
 
 volumes:
   - name: gcloud-config

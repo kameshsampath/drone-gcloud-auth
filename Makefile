@@ -4,19 +4,18 @@ SHELL := bash
 CURRENT_DIR = $(shell pwd)
 ENV_FILE := $(CURRENT_DIR)/.env.sk
 BUILDER=buildx-multi-arch
-DOCKER_FILE=$(CURRENT_DIR)/docker/Dockerfile
 
 prepare-buildx: ## Create buildx builder for multi-arch build, if not exists
 	docker buildx inspect $(BUILDER) || docker buildx create --name=$(BUILDER) --driver=docker-container --driver-opt=network=host
 
 build-plugin: ## Build plugin image locally
-	docker build --tag=$(IMAGE):$(shell svu next) -f $(DOCKER_FILE) .
+	docker build --tag=$(IMAGE):$(TAG) .
 
 push-plugin: prepare-buildx ## Build & Upload extension image to hub. Do not push if tag already exists: TAG=$(svu c) make push-extension
-	docker pull $(IMAGE):$(shell svu c) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(shell svu c) --tag=$(IMAGE):$(shell svu c) -f $(DOCKER_FILE) .
+	docker pull $(IMAGE):$(TAG) && echo "Failure: Tag already exists" || docker buildx build --push --builder=$(BUILDER) --platform=linux/amd64,linux/arm64 --build-arg TAG=$(TAG) --tag=$(IMAGE):$(TAG) .
 
 release:	
-	git tag "$(shell svu next)"
+	git tag $$(svu patch)
 	git push --tags
 
 help: ## Show this help
